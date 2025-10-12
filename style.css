@@ -1,6 +1,6 @@
 body {
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    background-color: royalblue;
+    background-color:#BFD7F7;
     color:midnightblue;
     margin: 0 auto;
     padding: 20px;
@@ -9,13 +9,13 @@ body {
 
 h1 {
     text-align: center;
-    color:royalblue;
+    color:#3456B8;
     margin-bottom: 20px;
 }
 
 form {
     background-color: lightblue;
-    padding: 20px;
+    padding: 25px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -27,7 +27,7 @@ label {
 }
 
 textarea {
-    width:100%;
+    width:95%;
     padding: 10px;
     border: 1px solid midnightblue;
     border-radius: 4px;
