@@ -14,7 +14,7 @@ h1 {
 }
 
 form {
-    background-color: lightblue;
+    background-color: #A6C2F3;
     padding: 25px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -39,18 +39,21 @@ select {
     padding: 8px;
     border: 1px solid midnightblue;
     border-radius: 4px;
-    background-color: lightblue;
+    background-color: #8CACEF;
     width: 100%;
     max-width: 300px;
 }
 
 button {
-    background-color: lightblue;
-    color: white;
+    background-color: #8CACEF;
+    color: #FAEBD7;
     padding: 10px 20px;
-    border: none;
+    border:#3456B8;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
 }
 
+button:hover {
+    background-color:#5A80E6;
+}
