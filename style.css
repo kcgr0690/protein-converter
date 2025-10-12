@@ -57,3 +57,13 @@ button {
 button:hover {
     background-color:#5A80E6;
 }
+
+#output {
+    margin-top: 20px;
+    padding: 15px;
+    background-color:#BFD7F7;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    white-space: pre-wrap;
+    font-family: monospace;
+}
