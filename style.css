@@ -45,10 +45,10 @@ select {
 }
 
 button {
-    background-color: #8CACEF;
+    background-color: #7396EB;
     color: #FAEBD7;
     padding: 10px 20px;
-    border: 2px solid #7396EB;
+    border: 2px solid #5A80E6;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
