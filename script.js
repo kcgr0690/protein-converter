@@ -23,13 +23,13 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     const type = document.getElementById('type').value;
     console.log('Sequence:', sequence);
     console.log('Type:', type);
-
+    
     const outputDiv = document.getElementById('output');
 
     let mrna = '';
     if (type === 'mrna') {
         mrna = sequence;
-    } else if (type == 'coding') {
+    } else if (type === 'coding') {
         mrna = sequence.replace(/T/g, 'U');
     } else if (type === 'template') {
         const reversed = sequence.split('').reverse().join('');
@@ -49,7 +49,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     }
 
     const startIndex = mrna.indexOf('AUG');
-    if (startIndex === -1 || startIndex % 3 !== 0) {
+    if (startIndex === -1) {
         outputDiv.innerHTML = '<p>Error: No valid "AUG" start codon in reading frame.</p>';
         return;
     }
@@ -77,9 +77,10 @@ document.getElementById('translateBtn').addEventListener('click', function() {
         return;
     }
 
-    const proteinString = `START (${protein.join(') - ')})`;
+    const proteinString = `START (${protein.join(') - (')})`;
     console.log('Protein:', proteinString);
 
     
-    outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type}) Protein: <strong>${proteinString}</strong></p>`;
+    outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type})</p>
+                           <p>Protein: <strong>${proteinString}</strong></p>`;
 });
