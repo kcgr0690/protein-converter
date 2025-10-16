@@ -24,6 +24,8 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     console.log('Sequence:', sequence);
     console.log('Type:', type);
 
+    const outputDiv = document.getElementById('output');
+
     let mrna = '';
     if (type === 'mrna') {
         mrna = sequence;
@@ -56,26 +58,28 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     console.log('Coding mRNA from start:', codingMrna);
 
     let protein = [];
-    for (let i = 0; i , codingMrna.length; i+=3) {
+    for (let i = 0; i < codingMrna.length; i+=3) {
         const codon = codingMrna.slice(i, i + 3);
         if (codon.length < 3) break;
         let aa = codonTable[codon];
         if (!aa) {
-            outputDiv.dispatchEvent.innerHTML = `<p>Error: Invalid codon "${codon}" (invalid bases?)`;
+            outputDiv.innerHTML = `<p>Error: Invalid codon "${codon}" (invalid bases?)</p>`;
+            return;
         }
 
-        aa = aa.split('  ')[0];
+        aa = aa.split(' ')[0];
         protein.push(aa);
         if (aa === 'STOP') break;
     }
 
     if (protein.length === 0 || protein[0] !== 'MET') {
-        outputDiv.innerHTML = '<p>Error: Translation does not start with MET (start codon).</p>'
+        outputDiv.innerHTML = '<p>Error: Translation does not start with MET (start codon).</p>';
         return;
     }
 
-    
+    const proteinString = `START (${protein.join(') - ')})`;
+    console.log('Protein:', proteinString);
 
-    const outputDiv = document.getElementById('output');
-    outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type})</p>`;
+    
+    outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type}) Protein: <strong>${proteinString}</strong></p>`;
 });
