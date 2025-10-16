@@ -21,6 +21,7 @@ const codonTable = {
 document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
     const type = document.getElementById('type').value;
+    const sequenceInput = document.getElementById('sequence');
     console.log('Sequence:', sequence);
     console.log('Type:', type);
     
@@ -83,4 +84,5 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     
     outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type})</p>
                            <p>Protein: <strong>${proteinString}</strong></p>`;
+    sequenceInput.value = '';
 });
