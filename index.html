@@ -1,30 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DNA to Protein Translator</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-
-    <div id="tabContainer"> <!-- started adding tab container code here. continue tmrw. -->
-        <body>
+<body>
     <div id="tabContainer">
-        <h1>DNA to Protein Translator</h1>
-        <form id="translatorForm">
-            <label for="sequence">Enter your sequence (5' to 3'):</label><br>
-            <textarea id="sequence" rows="4" cols="50" placeholder="e.g., ATGGCC..."></textarea><br><br>
-            <label for="type">Select sequence type:</label><br>
-            <select id="type">
-                <option value="coding">DNA Coding Strand</option>
-                <option value="template">DNA Template Strand</option>
-                <option value="mrna">mRNA</option>
-            </select><br><br>
-            <button type="button" id="translateBtn">Translate to Protein</button>
-        </form>
+        <div id="tabButtons">
+            <button class="tabButton active" onclick="switchTab('translator')">Translator</button>
+            <button class="tabButton" onclick="switchTab('history')">History</button>
+        </div>
 
-        <div id="output">
-        
+        <div id="translatorTab" class="tabPanel active">
+            <h1>DNA to Protein Translator</h1>
+            <form id="translatorForm">
+                <label for="sequence">Enter your sequence (5' to 3'):</label><br>
+                <textarea id="sequence" rows="4" cols="50" placeholder="e.g., ATGGCC..."></textarea><br><br>
+                <label for="type">Select sequence type:</label><br>
+                <select id="type">
+                    <option value="coding">DNA Coding Strand</option>
+                    <option value="template">DNA Template Strand</option>
+                    <option value="mrna">mRNA</option>
+                </select><br><br>
+                <button type="button" id="translateBtn">Translate to Protein</button>
+            </form>
+
+            <div id="output">
+                
+            </div>
         </div>
 
         <div id="historyTab" class="tabPanel">
@@ -35,4 +32,3 @@
     </div>
     <script src="script.js"></script>
 </body>
-</html>
