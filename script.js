@@ -1,3 +1,23 @@
+const codonTable = {
+    'UUU': 'PHE', 'UUC': 'PHE', 'UUA': 'LEU', 'UUG': 'LEU',
+    'CUU': 'LEU', 'CUC': 'LEU', 'CUA': 'LEU', 'CUG': 'LEU',
+    'AUU': 'ILE', 'AUC': 'ILE', 'AUA': 'ILE', 'AUG': 'MET (Start)',
+    'GUU': 'VAL', 'GUC': 'VAL', 'GUA': 'VAL', 'GUG': 'VAL',
+    'UCU': 'SER', 'UCC': 'SER', 'UCA': 'SER', 'UCG': 'SER',
+    'CCU': 'PRO', 'CCC': 'PRO', 'CCA': 'PRO', 'CCG': 'PRO',
+    'ACU': 'THR', 'ACC': 'THR', 'ACA': 'THR', 'ACG': 'THR',
+    'GCU': 'ALA', 'GCC': 'ALA', 'GCA': 'ALA', 'GCG': 'ALA',
+    'UAU': 'TYR', 'UAC': 'TYR', 'UAA': 'STOP', 'UAG': 'STOP',
+    'CAU': 'HIS', 'CAC': 'HIS', 'CAA': 'GLN', 'CAG': 'GLN',
+    'AAU': 'ASN', 'AAC': 'ASN', 'AAA': 'LYS', 'AAG': 'LYS',
+    'GAU': 'ASP', 'GAC': 'ASP', 'GAA': 'GLU', 'GAG': 'GLU',
+    'UGU': 'CYS', 'UGC': 'CYS', 'UGA': 'STOP', 'UGG': 'TRP',
+    'CGU': 'ARG', 'CGC': 'ARG', 'CGA': 'ARG', 'CGG': 'ARG',
+    'AGU': 'SER', 'AGC': 'SER', 'AGA': 'ARG', 'AGG': 'ARG',
+    'GGU': 'GLY', 'GGC': 'GLY', 'GGA': 'GLY', 'GGG': 'GLY'
+}; // will use this to identify codons and translate to protein -> 
+// I think I'm only going to use the first 3 letters for the protein name like lys for lysine, etc etc
+
 document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
     const type = document.getElementById('type').value;
@@ -9,7 +29,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
         mrna = sequence;
     } else if (type == 'coding') {
         mrna = sequence.replace(/T/g, 'U');
-    } else if (type === template) {
+    } else if (type === 'template') {
         const reversed = sequence.split('').reverse().join('');
         const complement = reversed
             .replace(/A/g, 'tempA')
@@ -22,13 +42,13 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     }
 
     if (mrna.length < 3) {
-        outputDiv.innerHTML = '<p>Error: Sequence too short for translation.<\p>';
+        outputDiv.innerHTML = '<p>Error: Sequence too short for translation.</p>';
         return;
     }
 
     const startIndex = mrna.indexOf('AUG');
     if (startIndex === -1 || startIndex % 3 !== 0) {
-        outputDiv.innerHTML = '<p>Error: No valid "AUG" start codon in reading frame.<\p>';
+        outputDiv.innerHTML = '<p>Error: No valid "AUG" start codon in reading frame.</p>';
         return;
     }
 
