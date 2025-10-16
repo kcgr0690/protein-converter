@@ -67,3 +67,88 @@ button:hover {
     white-space: pre-wrap;
     font-family: monospace;
 }
+
+#tabContainer {
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color:#BFD7F7;
+    color:midnightblue;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 800px;
+}
+
+#tabButtons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.tabButton {
+    background-color: #5A80E6;
+    color: midnightblue;
+    border: 2px solid midnightblue;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.tabButton.active {
+    background-color: midnightblue;
+    color: white;
+    border-color: white;
+}
+
+.tabButton:hover {
+    background-color: royalblue;
+    color: white;
+    border-color: royalblue;
+}
+
+
+.tabPanel {
+    display: none;
+    background-color: #BFD7F7; 
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.tabPanel.active {
+    display: block; 
+}
+
+#clearHistoryBtn {
+    background-color: #e74c3c;
+    color: white;
+    border: 2px solid #e74c3c;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+#clearHistoryBtn:hover {
+    background-color: white;
+    color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+#historyList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#historyList li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #A6C2F3;
+    border-left: 4px solid midnightblue;
+    border-radius: 4px;
+    font-family: monospace;
+}
