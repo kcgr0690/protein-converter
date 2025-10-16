@@ -1,44 +1,38 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
     <head>
-
         <meta charset="UTF-8">
-        <meta name="viewport" content="width = device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>DNA to Protein Translator</title>
-        <link rel="stylesheet" href ="style.css">
-
+        <link rel="stylesheet" href="style.css">
     </head>
 
-    
-    <body>
-        <div id="tabContainer"> <!-- started adding tab container code here. continue tmrw. -->
-
+    <div id="tabContainer"> <!-- started adding tab container code here. continue tmrw. -->
+        <body>
+    <div id="tabContainer">
         <h1>DNA to Protein Translator</h1>
         <form id="translatorForm">
-
-            <label for="sequence">Enter your sequence (5' to 3'): </label><br>
-            <textarea id="sequence" rows = "4" cols = "50" placeholder="e.g., ATGGCC..."></textarea><br><br>
-            <label for="type">Select sequence type: </label><br>
-
+            <label for="sequence">Enter your sequence (5' to 3'):</label><br>
+            <textarea id="sequence" rows="4" cols="50" placeholder="e.g., ATGGCC..."></textarea><br><br>
+            <label for="type">Select sequence type:</label><br>
             <select id="type">
-
                 <option value="coding">DNA Coding Strand</option>
                 <option value="template">DNA Template Strand</option>
                 <option value="mrna">mRNA</option>
-
             </select><br><br>
             <button type="button" id="translateBtn">Translate to Protein</button>
         </form>
 
         <div id="output">
-
+        
         </div>
 
-        <div id="historyTab" class = "tabPanel">
+        <div id="historyTab" class="tabPanel">
             <h2>Translation History</h2>
             <button id="clearHistoryBtn">Clear History</button>
             <ul id="historyList"></ul>
         </div>
-        <script src="script.js"></script>
-    </body>
+    </div>
+    <script src="script.js"></script>
+</body>
 </html>
