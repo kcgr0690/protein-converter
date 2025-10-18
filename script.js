@@ -48,8 +48,15 @@ function saveAndDisplayHistory(entry) {
         const li = document.createElement('li');
         li.innerHTML = `<strong>${item.date}</strong><br>${item.sequence} (${item.type}) -> <em>${item.protein}</em>`;
         historyList.appendChild(li);
-    })
+    });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('clearHistoryBtn').addEventListener('click', function() {
+        localStorage.removeItem('translationHistory')
+        document.getElementById('historyList').innerHTML = '';
+    });
+});
 
 document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
@@ -114,6 +121,14 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     const proteinString = `START (${protein.join(') - (')})`;
     console.log('Protein:', proteinString);
 
+    const entry = {
+        date:new Date().toLocaleString,
+        sequence: sequence,
+        type: type,
+        protein: proteinString
+    };
+
+    saveAndDisplayHistory(entry);
     
     outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type})</p>
                            <p>Protein: <strong>${proteinString}</strong></p>`;
