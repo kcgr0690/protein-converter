@@ -36,6 +36,21 @@ function loadHistory() {
     return history ? JSON.parse(history) : [];
 }
 
+function saveAndDisplayHistory(entry) {
+    let history = loadHistory();
+    history.unshift(entry);
+    if (history.length > 10) history = history.slice(0,10);
+    localStorage.setItem('translationHistory', JSON.stringify.apply(history));
+
+    const historyList = document.getElementById('historyList');
+    historyList.innerHTML = '';
+    history.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${item.date}</strong><br>${item.sequence} (${item.type}) -> <em>${item.protein}</em>`;
+        historyList.appendChild(li);
+    })
+}
+
 document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
     const type = document.getElementById('type').value;
