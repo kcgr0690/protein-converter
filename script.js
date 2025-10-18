@@ -33,7 +33,14 @@ function switchTab(tabName, e) {
 
 function loadHistory() {
     const history = localStorage.getItem('translationHistory');
-    return history ? JSON.parse(history) : [];
+    if (!history) return [];
+    try {
+        return JSON.parse(history);
+    } catch (e) {
+        console.error('Bad history data, clearing: ', e);
+        localStorage.removeItem('translationHistory');
+        return [];
+    }
 }
 
 function saveAndDisplayHistory(entry) {
