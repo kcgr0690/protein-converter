@@ -40,7 +40,7 @@ function saveAndDisplayHistory(entry) {
     let history = loadHistory();
     history.unshift(entry);
     if (history.length > 10) history = history.slice(0,10);
-    localStorage.setItem('translationHistory', JSON.stringify.apply(history));
+    localStorage.setItem('translationHistory', JSON.stringify(history));
 
     const historyList = document.getElementById('historyList');
     historyList.innerHTML = '';
@@ -66,6 +66,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     console.log('Type:', type);
     
     const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = '';
 
     let mrna = '';
     if (type === 'mrna') {
@@ -122,7 +123,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     console.log('Protein:', proteinString);
 
     const entry = {
-        date:new Date().toLocaleString,
+        date:new Date().toLocaleString(),
         sequence: sequence,
         type: type,
         protein: proteinString
