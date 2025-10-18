@@ -18,6 +18,19 @@ const codonTable = {
 }; // will use this to identify codons and translate to protein -> 
 // I think I'm only going to use the first 3 letters for the protein name like lys for lysine, etc etc
 
+function switchTab(tabName) {
+
+    const panels = document.querySelectorAll('.tabPanel');
+    panels.forEach(panel => panel.classList.remove('active'));
+
+    const buttons = document.querySelectorAll('.tabButton');
+    buttons.forEach(button => button.classList.remove('active'));
+
+    document.getElementById(tabName + 'Tab').classList.add('active');
+
+    event.target.classList.add('active');
+}
+
 document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
     const type = document.getElementById('type').value;
