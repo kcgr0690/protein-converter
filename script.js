@@ -121,6 +121,13 @@ document.getElementById('translateBtn').addEventListener('click', function() {
         if (aa === 'STOP') break;
     }
 
+    let leftoverWarning = '';
+    const remainder = codingMrna.length % 3;
+    if (remainder !== 0) {
+        const remainingBases = codingMrna.slice(-remainder);
+        leftoverWarning = `<p><em>There are ${remainder} bases leftover at the end. <strong>${remainingBases}</strong></em></p>`;
+    }
+
     if (protein.length === 0 || protein[0] !== 'MET') {
         outputDiv.innerHTML = '<p>Error: Translation does not start with MET (start codon).</p>';
         return;

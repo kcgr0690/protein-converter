@@ -29,7 +29,7 @@ label {
 textarea {
     width:95%;
     padding: 10px;
-    border: 1px solid midnightblue;
+    border: 2px solid #8CACEF;
     border-radius: 4px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     resize: vertical;
@@ -37,18 +37,19 @@ textarea {
 
 select {
     padding: 8px;
-    border: 1px solid midnightblue;
+    border: 2px solid #7396EB;
     border-radius: 4px;
     background-color: #8CACEF;
     width: 100%;
     max-width: 200px;
+    color:#26428E;
 }
 
 button {
-    background-color: #7396EB;
+    background-color: #5A80E6;
     color: #FAEBD7;
     padding: 10px 20px;
-    border: 2px solid #5A80E6;
+    border: 2px solid #3A5FCC;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
@@ -71,7 +72,7 @@ button:hover {
 #tabContainer {
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     background-color:#BFD7F7;
-    color:midnightblue;
+    color:#2D4CA3;
     margin: 0 auto;
     padding: 20px;
     max-width: 800px;
@@ -86,8 +87,8 @@ button:hover {
 
 .tabButton {
     background-color: #5A80E6;
-    color: midnightblue;
-    border: 2px solid midnightblue;
+    color: #26428E;
+    border: 2px solid #2D4CA3;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
@@ -97,14 +98,14 @@ button:hover {
 }
 
 .tabButton.active {
-    background-color: midnightblue;
-    color: white;
-    border-color: white;
+    background-color: #3A5FCC;
+    color: #FAEBD7;
+    border-color:#1F387A;
 }
 
 .tabButton:hover {
     background-color: royalblue;
-    color: white;
+    color: #FAEBD7;
     border-color: royalblue;
 }
 
@@ -133,7 +134,7 @@ button:hover {
 }
 
 #clearHistoryBtn:hover {
-    background-color: white;
+    background-color: #FAEBD7;
     color: #e74c3c;
     border-color: #e74c3c;
 }
@@ -148,7 +149,7 @@ button:hover {
     margin-bottom: 10px;
     padding: 10px;
     background-color: #A6C2F3;
-    border-left: 4px solid midnightblue;
+    border-left: 4px solid #2D4CA3;
     border-radius: 4px;
     font-family: monospace;
 }
