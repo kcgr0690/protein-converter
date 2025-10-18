@@ -31,6 +31,11 @@ function switchTab(tabName) {
     event.target.classList.add('active');
 }
 
+function loadHistory() {
+    const history = localStorage.getItem('translationHistory');
+    return history ? JSON.parse(history) : [];
+}
+
 document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
     const type = document.getElementById('type').value;
