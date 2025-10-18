@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
-    const type = document.getElementById('type').value;
+    const type = document.getElementById('type').value.toLowerCase();
     const sequenceInput = document.getElementById('sequence');
     console.log('Sequence:', sequence);
     console.log('Type:', type);
@@ -75,11 +75,11 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     const outputDiv = document.getElementById('output');
     outputDiv.innerHTML = '';
 
-    let mrna = '';
+    let mRNA = '';
     if (type === 'mrna') {
-        mrna = sequence;
+        mRNA = sequence;
     } else if (type === 'coding') {
-        mrna = sequence.replace(/T/g, 'U');
+        mRNA = sequence.replace(/T/g, 'U');
     } else if (type === 'template') {
         const reversed = sequence.split('').reverse().join('');
         const complement = reversed
@@ -89,26 +89,26 @@ document.getElementById('translateBtn').addEventListener('click', function() {
             .replace(/G/g, 'tempG')
             .replace(/C/g, 'G')
             .replace(/tempG/g, 'C');
-        mrna = complement.replace(/T/g, 'U');
+        mRNA = complement.replace(/T/g, 'U');
     }
 
-    if (mrna.length < 3) {
+    if (mRNA.length < 3) {
         outputDiv.innerHTML = '<p>Error: Sequence too short for translation.</p>';
         return;
     }
 
-    const startIndex = mrna.indexOf('AUG');
+    const startIndex = mRNA.indexOf('AUG');
     if (startIndex === -1) {
         outputDiv.innerHTML = '<p>Error: No valid "AUG" start codon in reading frame.</p>';
         return;
     }
 
-    const codingMrna = mrna.slice(startIndex);
-    console.log('Coding mRNA from start:', codingMrna);
+    const codingmRNA = mRNA.slice(startIndex);
+    console.log('Coding mRNA from start:', codingmRNA);
 
     let protein = [];
-    for (let i = 0; i < codingMrna.length; i+=3) {
-        const codon = codingMrna.slice(i, i + 3);
+    for (let i = 0; i < codingmRNA.length; i+=3) {
+        const codon = codingmRNA.slice(i, i + 3);
         if (codon.length < 3) break;
         let aa = codonTable[codon];
         if (!aa) {
@@ -122,10 +122,10 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     }
 
     let leftoverWarning = '';
-    const remainder = codingMrna.length % 3;
+    const remainder = codingmRNA.length % 3;
     if (remainder !== 0) {
-        const remainingBases = codingMrna.slice(-remainder);
-        leftoverWarning = `<p><em>There are ${remainder} bases leftover at the end. <strong>${remainingBases}</strong></em></p>`;
+        const remainingBases = codingmRNA.slice(-remainder);
+        leftoverWarning = `<p><em>${remainder} base${remainder > 1 ? 's' : ''} remaining at the end: <strong>${remainingBases}</strong></em></p>`;
     }
 
     if (protein.length === 0 || protein[0] !== 'MET') {
@@ -137,7 +137,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     console.log('Protein:', proteinString);
 
     const entry = {
-        date:new Date().toLocaleString(),
+        date: new Date().toLocaleString(),
         sequence: sequence,
         type: type,
         protein: proteinString
@@ -146,6 +146,6 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     saveAndDisplayHistory(entry);
     
     outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type})</p>
-                           <p>Protein: <strong>${proteinString}</strong></p>`;
+                       <p>Protein: <strong>${proteinString}</strong></p>${leftoverWarning}`;
     sequenceInput.value = '';
 });
