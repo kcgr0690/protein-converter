@@ -215,7 +215,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
         hasStop = true;
         break;
     }
-    const aaName = useFullName ? codonTable[codon] : codonTable[codon].split(' ')[0];
+    const aaName = useFullName ? aaObj.full : aaObj.short;
     protein.push(aaName);
 }
 
