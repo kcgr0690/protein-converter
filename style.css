@@ -124,9 +124,9 @@ button:hover {
 }
 
 #clearHistoryBtn {
-    background-color: #e74c3c;
+    background-color: #FF8886;
     color: white;
-    border: 2px solid #e74c3c;
+    border: 2px solid #FF6863;
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;

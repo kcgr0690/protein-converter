@@ -166,35 +166,6 @@ if (remainder !== 0) {
 }
 // LEFT OFF HERE, CONTINUE TMRW. There's probably bugs :(
 
-    //below is perfectly functional commented out code, will see if new code works, if not, revert and retry.
-
-    /*let protein = [];
-    for (let i = 0; i < codingmRNA.length; i+=3) {
-        const codon = codingmRNA.slice(i, i + 3);
-        if (codon.length < 3) break;
-        let aa = codonTable[codon];
-        if (!aa) {
-            outputDiv.innerHTML = `<p>Error: Invalid codon "${codon}" (invalid bases?)</p>`;
-            return;
-        }
-
-        aa = aa.split(' ')[0];
-        protein.push(aa);
-        if (aa === 'STOP') break;
-    }
-
-    let leftoverWarning = '';
-    const remainder = codingmRNA.length % 3;
-    if (remainder !== 0) {
-        const remainingBases = codingmRNA.slice(-remainder);
-        leftoverWarning = `<p><em>${remainder} base${remainder > 1 ? 's' : ''} remaining at the end: <strong>${remainingBases}</strong></em></p>`;
-    }
-
-    if (protein.length === 0 || protein[0] !== 'MET') {
-        outputDiv.innerHTML = '<p>Error: Translation does not start with MET (start codon).</p>';
-        return;
-    }
-    */
     const proteinString = `START (${protein.join(') - (')})`;
     console.log('Protein:', proteinString); 
 
