@@ -33,6 +33,7 @@ textarea {
     border-radius: 4px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     resize: vertical;
+    background-color: #FFF5EE;
 }
 
 select {
@@ -86,8 +87,8 @@ button:hover {
 }
 
 .tabButton {
-    background-color: #5A80E6;
-    color: #26428E;
+    background-color: #7396EB;
+    color: #1F387A;
     border: 2px solid #2D4CA3;
     padding: 10px 20px;
     cursor: pointer;
@@ -98,7 +99,7 @@ button:hover {
 }
 
 .tabButton.active {
-    background-color: #3A5FCC;
+    background-color: royalblue;
     color: #FAEBD7;
     border-color:#1F387A;
 }
