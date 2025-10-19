@@ -1,22 +1,90 @@
 const codonTable = {
-    'UUU': 'PHE', 'UUC': 'PHE', 'UUA': 'LEU', 'UUG': 'LEU',
-    'CUU': 'LEU', 'CUC': 'LEU', 'CUA': 'LEU', 'CUG': 'LEU',
-    'AUU': 'ILE', 'AUC': 'ILE', 'AUA': 'ILE', 'AUG': 'MET (Start)',
-    'GUU': 'VAL', 'GUC': 'VAL', 'GUA': 'VAL', 'GUG': 'VAL',
-    'UCU': 'SER', 'UCC': 'SER', 'UCA': 'SER', 'UCG': 'SER',
-    'CCU': 'PRO', 'CCC': 'PRO', 'CCA': 'PRO', 'CCG': 'PRO',
-    'ACU': 'THR', 'ACC': 'THR', 'ACA': 'THR', 'ACG': 'THR',
-    'GCU': 'ALA', 'GCC': 'ALA', 'GCA': 'ALA', 'GCG': 'ALA',
-    'UAU': 'TYR', 'UAC': 'TYR', 'UAA': 'STOP', 'UAG': 'STOP',
-    'CAU': 'HIS', 'CAC': 'HIS', 'CAA': 'GLN', 'CAG': 'GLN',
-    'AAU': 'ASN', 'AAC': 'ASN', 'AAA': 'LYS', 'AAG': 'LYS',
-    'GAU': 'ASP', 'GAC': 'ASP', 'GAA': 'GLU', 'GAG': 'GLU',
-    'UGU': 'CYS', 'UGC': 'CYS', 'UGA': 'STOP', 'UGG': 'TRP',
-    'CGU': 'ARG', 'CGC': 'ARG', 'CGA': 'ARG', 'CGG': 'ARG',
-    'AGU': 'SER', 'AGC': 'SER', 'AGA': 'ARG', 'AGG': 'ARG',
-    'GGU': 'GLY', 'GGC': 'GLY', 'GGA': 'GLY', 'GGG': 'GLY'
-}; // will use this to identify codons and translate to protein -> 
-// I think I'm only going to use the first 3 letters for the protein name like lys for lysine, etc etc
+    // Phenylalanine
+    'UUU': {short: 'PHE', full: 'Phenylalanine'},
+    'UUC': {short: 'PHE', full: 'Phenylalanine'},
+    // Leucine
+    'UUA': {short: 'LEU', full: 'Leucine'},
+    'UUG': {short: 'LEU', full: 'Leucine'},
+    'CUU': {short: 'LEU', full: 'Leucine'},
+    'CUC': {short: 'LEU', full: 'Leucine'},
+    'CUA': {short: 'LEU', full: 'Leucine'},
+    'CUG': {short: 'LEU', full: 'Leucine'},
+    // Isoleucine
+    'AUU': {short: 'ILE', full: 'Isoleucine'},
+    'AUC': {short: 'ILE', full: 'Isoleucine'},
+    'AUA': {short: 'ILE', full: 'Isoleucine'},
+    // Methionine (Start)
+    'AUG': {short: 'MET', full: 'Methionine (Start)'},
+    // Valine
+    'GUU': {short: 'VAL', full: 'Valine'},
+    'GUC': {short: 'VAL', full: 'Valine'},
+    'GUA': {short: 'VAL', full: 'Valine'},
+    'GUG': {short: 'VAL', full: 'Valine'},
+    // Serine
+    'UCU': {short: 'SER', full: 'Serine'},
+    'UCC': {short: 'SER', full: 'Serine'},
+    'UCA': {short: 'SER', full: 'Serine'},
+    'UCG': {short: 'SER', full: 'Serine'},
+    'AGU': {short: 'SER', full: 'Serine'},
+    'AGC': {short: 'SER', full: 'Serine'},
+    // Proline
+    'CCU': {short: 'PRO', full: 'Proline'},
+    'CCC': {short: 'PRO', full: 'Proline'},
+    'CCA': {short: 'PRO', full: 'Proline'},
+    'CCG': {short: 'PRO', full: 'Proline'},
+    // Threonine
+    'ACU': {short: 'THR', full: 'Threonine'},
+    'ACC': {short: 'THR', full: 'Threonine'},
+    'ACA': {short: 'THR', full: 'Threonine'},
+    'ACG': {short: 'THR', full: 'Threonine'},
+    // Alanine
+    'GCU': {short: 'ALA', full: 'Alanine'},
+    'GCC': {short: 'ALA', full: 'Alanine'},
+    'GCA': {short: 'ALA', full: 'Alanine'},
+    'GCG': {short: 'ALA', full: 'Alanine'},
+    // Tyrosine
+    'UAU': {short: 'TYR', full: 'Tyrosine'},
+    'UAC': {short: 'TYR', full: 'Tyrosine'},
+    // Histidine
+    'CAU': {short: 'HIS', full: 'Histidine'},
+    'CAC': {short: 'HIS', full: 'Histidine'},
+    // Glutamine
+    'CAA': {short: 'GLN', full: 'Glutamine'},
+    'CAG': {short: 'GLN', full: 'Glutamine'},
+    // Asparagine
+    'AAU': {short: 'ASN', full: 'Asparagine'},
+    'AAC': {short: 'ASN', full: 'Asparagine'},
+    // Lysine
+    'AAA': {short: 'LYS', full: 'Lysine'},
+    'AAG': {short: 'LYS', full: 'Lysine'},
+    // Aspartic acid
+    'GAU': {short: 'ASP', full: 'Aspartic acid'},
+    'GAC': {short: 'ASP', full: 'Aspartic acid'},
+    // Glutamic acid
+    'GAA': {short: 'GLU', full: 'Glutamic acid'},
+    'GAG': {short: 'GLU', full: 'Glutamic acid'},
+    // Cysteine
+    'UGU': {short: 'CYS', full: 'Cysteine'},
+    'UGC': {short: 'CYS', full: 'Cysteine'},
+    // Tryptophan
+    'UGG': {short: 'TRP', full: 'Tryptophan'},
+    // Arginine
+    'CGU': {short: 'ARG', full: 'Arginine'},
+    'CGC': {short: 'ARG', full: 'Arginine'},
+    'CGA': {short: 'ARG', full: 'Arginine'},
+    'CGG': {short: 'ARG', full: 'Arginine'},
+    'AGA': {short: 'ARG', full: 'Arginine'},
+    'AGG': {short: 'ARG', full: 'Arginine'},
+    // Glycine
+    'GGU': {short: 'GLY', full: 'Glycine'},
+    'GGC': {short: 'GLY', full: 'Glycine'},
+    'GGA': {short: 'GLY', full: 'Glycine'},
+    'GGG': {short: 'GLY', full: 'Glycine'},
+    // Stop codons
+    'UAA': {short: 'STOP', full: 'STOP'},
+    'UAG': {short: 'STOP', full: 'STOP'},
+    'UGA': {short: 'STOP', full: 'STOP'}
+};
 
 
 function switchTab(tabName, e) { 
