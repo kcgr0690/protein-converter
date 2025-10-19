@@ -129,7 +129,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
         protein.push(aa); 
         stopIndex = i;
         hasStop = true;
-        continue;
+        break;
     }
 
     protein.push(aa);
@@ -143,7 +143,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
             let postAA = codonTable[postCodon];
             if (postAA) {
                 postAA = postAA.split(' ')[0];
-                postStopCodons.push(`${postCodon} → ${postAA}`);
+                postStopCodons.push(`${postCodon} → <strong>${postAA}</strong>`);
             } else {
                 postStopCodons.push(`${postCodon} → (invalid)`);
             }
