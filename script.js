@@ -106,7 +106,37 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     const codingmRNA = mRNA.slice(startIndex);
     console.log('Coding mRNA from start:', codingmRNA);
 
+    //new code begins below.
+
     let protein = [];
+    let hasStop = false;
+
+    for (let i = 0; i < codingmRNA.length; i += 3) {
+        const codon = codingmRNA.slice(i, i +3);
+        if (codon.length < 3) break;
+        let aa = codonTable[codon];
+        if (!aa) {
+            outputDiv.innerHTML = `<p>Error: Invalid codon "${codon}" (invalid bases?)</p>`;
+            return;
+        }
+
+        aa = aa.split(' ')[0];
+        protein.push(aa);
+        if (aa === 'STOP') {
+            hasStop = true;
+            break;
+        }
+    }
+
+    let leftoverWarning = '';
+    const remainder = codingmRNA.length % 3;
+    if (stopIndex !== -1) {
+        const postCodon = codingmRNA.slice(stopIndex +3); // LEFT OFF HERE, CONTINUE TMRW
+    }
+
+    //below is perfectly functional commented out code, will see if new code works, if not, revert and retry.
+
+    /*let protein = [];
     for (let i = 0; i < codingmRNA.length; i+=3) {
         const codon = codingmRNA.slice(i, i + 3);
         if (codon.length < 3) break;
@@ -134,7 +164,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     }
 
     const proteinString = `START (${protein.join(') - (')})`;
-    console.log('Protein:', proteinString);
+    console.log('Protein:', proteinString); */
 
     const entry = {
         date: new Date().toLocaleString(),
