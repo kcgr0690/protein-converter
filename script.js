@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('translateBtn').addEventListener('click', function() {
+    const useFullName = document.getElementById('displayMode').checked;
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
     const type = document.getElementById('type').value;
     const sequenceInput = document.getElementById('sequence');
@@ -202,22 +203,20 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     for (let i = 0; i < codingmRNA.length; i += 3) {
     const codon = codingmRNA.slice(i, i + 3);
     if (codon.length < 3) break;
-    let aa = codonTable[codon];
-    if (!aa) {
+    let aaObj = codonTable[codon];
+    if (!aaObj) {
         outputDiv.innerHTML = `<p>Error: Invalid codon "${codon}" (invalid bases?)</p>`;
         return;
     }
-
-    aa = aa.split(' ')[0];
     
-    if (aa === 'STOP') {
-        protein.push(aa); 
+    if (aaObj === 'STOP') {
+        protein.push('STOP'); 
         stopIndex = i;
         hasStop = true;
         break;
     }
-
-    protein.push(aa);
+    const aaName = useFullName ? codonTable[codon] : codonTable[codon].split(' ')[0];
+    protein.push(aaName);
 }
 
     if (stopIndex !== -1) {
@@ -264,10 +263,10 @@ if (remainder !== 0) {
     saveAndDisplayHistory(entry);
     
     outputDiv.innerHTML = `
-  <div><strong>Sequence:</strong> ${sequence} (${type})</div>
-  <div><strong>mRNA (from AUG):</strong> ${codonDisplay}</div>
-  <div><strong>Protein:</strong> ${proteinString}</div>
-  ${postStopAA}${leftoverWarning}
-`;
+    <div><strong>Sequence:</strong> ${sequence} (${type})</div>
+    <div><strong>mRNA (from AUG):</strong> ${codonDisplay}</div>
+    <div><strong>Protein:</strong> ${proteinString}</div>
+    ${postStopAA}${leftoverWarning}
+    `;
     sequenceInput.value = '';
 });
