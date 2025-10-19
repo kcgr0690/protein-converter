@@ -248,9 +248,7 @@ if (remainder !== 0) {
     const remainingBases = codingmRNA.slice(-remainder);
     leftoverWarning = `<p><em>${remainder} base${remainder > 1 ? 's' : ''} remaining at the end: <strong>${remainingBases}</strong></em></p>`;
 }
-// LEFT OFF HERE, CONTINUE TMRW. There's probably bugs :(
-
-    const proteinString = `START (${protein.join(') - (')})`;
+    const proteinString = `(${protein.join(') - (')})`;
     console.log('Protein:', proteinString); 
 
     const entry = {
