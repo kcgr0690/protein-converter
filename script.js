@@ -153,13 +153,16 @@ document.getElementById('translateBtn').addEventListener('click', function() {
         }
     }
 
+let noStopWarning = '';
+if (!hasStop) {
+    noStopWarning = `<p><em>No STOP codon found—translation assumed complete.</em></p>`;
+}
+
 let leftoverWarning = '';
 const remainder = codingmRNA.length % 3;
 if (remainder !== 0) {
     const remainingBases = codingmRNA.slice(-remainder);
     leftoverWarning = `<p><em>${remainder} base${remainder > 1 ? 's' : ''} remaining at the end: <strong>${remainingBases}</strong></em></p>`;
-} else if (!hasStop) {
-    leftoverWarning = `<p><em>No STOP codon found- translation assumed complete. </em></p>`;
 }
 // LEFT OFF HERE, CONTINUE TMRW. There's probably bugs :(
 
@@ -191,9 +194,9 @@ if (remainder !== 0) {
         outputDiv.innerHTML = '<p>Error: Translation does not start with MET (start codon).</p>';
         return;
     }
-
+    */
     const proteinString = `START (${protein.join(') - (')})`;
-    console.log('Protein:', proteinString); */
+    console.log('Protein:', proteinString); 
 
     const entry = {
         date: new Date().toLocaleString(),
