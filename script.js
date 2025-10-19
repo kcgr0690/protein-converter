@@ -71,9 +71,19 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     const sequenceInput = document.getElementById('sequence');
     console.log('Sequence:', sequence);
     console.log('Type:', type);
-    
     const outputDiv = document.getElementById('output');
     outputDiv.innerHTML = '';
+
+    const validBases = {
+        coding: /^[ATCG]+$/,
+        template: /^[ATCG]+$/,
+        mRNA: /^[AUCG]+$/
+    };
+
+    if (!validBases[type].test(sequence)) {
+        outputDiv.innerHTML = `<div style="color:red;"><strong>Error:</strong> Invalid bases for ${type} sequence.</div>`
+        return;
+    }
 
     let mRNA = '';
     if (type === 'mRNA') {
