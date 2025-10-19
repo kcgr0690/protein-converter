@@ -109,47 +109,59 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     //new code begins below.
 
     let protein = [];
-    let stopIndex = -1
+    let stopIndex = -1;
     let postStopCodons = [];
     let postStopAA = '';
     let hasStop = false;
 
     for (let i = 0; i < codingmRNA.length; i += 3) {
-        const codon = codingmRNA.slice(i, i +3);
-        if (codon.length < 3) break;
-        let aa = codonTable[codon];
-        if (!aa) {
-            outputDiv.innerHTML = `<p>Error: Invalid codon "${codon}" (invalid bases?)</p>`;
-            return;
-        }
-
-        aa = aa.split(' ')[0];
-        protein.push(aa);
-        if (aa === 'STOP') {
-            hasStop = true;
-            break;
-        }
+    const codon = codingmRNA.slice(i, i + 3);
+    if (codon.length < 3) break;
+    let aa = codonTable[codon];
+    if (!aa) {
+        outputDiv.innerHTML = `<p>Error: Invalid codon "${codon}" (invalid bases?)</p>`;
+        return;
     }
 
-    let leftoverWarning = '';
-    const remainder = codingmRNA.length % 3;
+    aa = aa.split(' ')[0];
+    
+    if (aa === 'STOP') {
+        protein.push(aa); 
+        stopIndex = i;
+        hasStop = true;
+        continue;
+    }
+
+    protein.push(aa);
+}
+
     if (stopIndex !== -1) {
-        const postStopmRNA = codingmRNA.slice(stopIndex +3); 
+        const postStopmRNA = codingmRNA.slice(stopIndex + 3);
         for (let j = 0; j < postStopmRNA.length; j += 3) {
-            const postCodon = postStopmRNA.slice(j,j + 3);
+            const postCodon = postStopmRNA.slice(j, j + 3);
             if (postCodon.length < 3) break;
             let postAA = codonTable[postCodon];
             if (postAA) {
                 postAA = postAA.split(' ')[0];
-                postStopCodons.push(`${postCodon} → ${postAA}`)
+                postStopCodons.push(`${postCodon} → ${postAA}`);
             } else {
                 postStopCodons.push(`${postCodon} → (invalid)`);
             }
         }
-
         if (postStopCodons.length > 0) {
-            postStopAA = `<p><em>${postStopCodons.length} codon${postStopmCodonts.length > 1? 's' : ''} after STOP: ${postStopCodons.join(', ')}</em></p>`
-        } // LEFT OFF HERE, CONTINUE TMRW. There's probably bugs :(
+            postStopAA = `<p><em>${postStopCodons.length} codon${postStopCodons.length > 1 ? 's' : ''} after STOP: ${postStopCodons.join(', ')}</em></p>`;
+        }
+    }
+
+let leftoverWarning = '';
+const remainder = codingmRNA.length % 3;
+if (remainder !== 0) {
+    const remainingBases = codingmRNA.slice(-remainder);
+    leftoverWarning = `<p><em>${remainder} base${remainder > 1 ? 's' : ''} remaining at the end: <strong>${remainingBases}</strong></em></p>`;
+} else if (!hasStop) {
+    leftoverWarning = `<p><em>No STOP codon found- translation assumed complete. </em></p>`;
+}
+// LEFT OFF HERE, CONTINUE TMRW. There's probably bugs :(
 
     //below is perfectly functional commented out code, will see if new code works, if not, revert and retry.
 
@@ -193,6 +205,6 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     saveAndDisplayHistory(entry);
     
     outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type})</p>
-                       <p>Protein: <strong>${proteinString}</strong></p>${leftoverWarning}`;
+                       <p>Protein: <strong>${proteinString}</strong></p>${postStopAA}${leftoverWarning}`;
     sequenceInput.value = '';
 });
