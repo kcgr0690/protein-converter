@@ -17,14 +17,31 @@
         <div id="translatorTab" class="tabPanel active">
             <h1>DNA to Protein Translator</h1>
             <form id="translatorForm">
+
                 <label for="sequence">Enter your sequence (5' to 3'):</label><br>
                 <textarea id="sequence" rows="4" cols="50" placeholder="e.g., ATGGCC..."></textarea><br><br>
-                <label for="type">Select sequence type:</label><br>
-                <select id="type">
-                    <option value="coding">DNA Coding Strand</option>
-                    <option value="template">DNA Template Strand</option>
-                    <option value="mRNA">mRNA</option>
-                </select><br><br>
+
+                <div class="input-row">
+                    <div>
+                    <label for="type">Select sequence type:</label><br>
+
+                    <select id="type">
+
+                        <option value="coding">DNA Coding Strand</option>
+                        <option value="template">DNA Template Strand</option>
+                        <option value="mRNA">mRNA</option>
+
+                    </select><br><br>
+                    </div>
+
+                    <div class="display-toggle">
+                        <label class = "toggle-label">3 letters</label>
+                        <label class="switch">
+                            
+                        </label>
+                    </div>
+                </div>
+
                 <button type="button" id="translateBtn">Translate to Protein</button>
             </form>
 
