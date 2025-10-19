@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
-    const type = document.getElementById('type').value.toLowerCase();
+    const type = document.getElementById('type').value;
     const sequenceInput = document.getElementById('sequence');
     console.log('Sequence:', sequence);
     console.log('Type:', type);
@@ -76,7 +76,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     outputDiv.innerHTML = '';
 
     let mRNA = '';
-    if (type === 'mrna') {
+    if (type === 'mRNA') {
         mRNA = sequence;
     } else if (type === 'coding') {
         mRNA = sequence.replace(/T/g, 'U');
@@ -104,9 +104,16 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     }
 
     const codingmRNA = mRNA.slice(startIndex);
-    console.log('Coding mRNA from start:', codingmRNA);
 
-    //new code begins below.
+    const codonChunks = [];
+    for (let i = 0; i < codingmRNA.length; i += 3) {
+        const chunk = codingmRNA.slice(i, i + 3);
+        codonChunks.push(`(${chunk})`);
+    }
+
+    const codonDisplay = codonChunks.join(' - ');
+
+    console.log('Coding mRNA from start:', codingmRNA);
 
     let protein = [];
     let stopIndex = -1;
@@ -178,7 +185,11 @@ if (remainder !== 0) {
 
     saveAndDisplayHistory(entry);
     
-    outputDiv.innerHTML = `<p>Sequence entered: <strong>${sequence}</strong> (Type: ${type})</p>
-                       <p>Protein: <strong>${proteinString}</strong></p>${postStopAA}${leftoverWarning}`;
+    outputDiv.innerHTML = `
+  <div><strong>Sequence:</strong> ${sequence} (${type})</div>
+  <div><strong>mRNA (from AUG):</strong> ${codonDisplay}</div>
+  <div><strong>Protein:</strong> ${proteinString}</div>
+  ${postStopAA}${leftoverWarning}
+`;
     sequenceInput.value = '';
 });
