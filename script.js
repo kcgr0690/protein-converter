@@ -109,6 +109,9 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     //new code begins below.
 
     let protein = [];
+    let stopIndex = -1
+    let postStopCodons = [];
+    let postStopAA = '';
     let hasStop = false;
 
     for (let i = 0; i < codingmRNA.length; i += 3) {
@@ -131,8 +134,22 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     let leftoverWarning = '';
     const remainder = codingmRNA.length % 3;
     if (stopIndex !== -1) {
-        const postCodon = codingmRNA.slice(stopIndex +3); // LEFT OFF HERE, CONTINUE TMRW
-    }
+        const postStopmRNA = codingmRNA.slice(stopIndex +3); 
+        for (let j = 0; j < postStopmRNA.length; j += 3) {
+            const postCodon = postStopmRNA.slice(j,j + 3);
+            if (postCodon.length < 3) break;
+            let postAA = codonTable[postCodon];
+            if (postAA) {
+                postAA = postAA.split(' ')[0];
+                postStopCodons.push(`${postCodon} → ${postAA}`)
+            } else {
+                postStopCodons.push(`${postCodon} → (invalid)`);
+            }
+        }
+
+        if (postStopCodons.length > 0) {
+            postStopAA = `<p><em>${postStopCodons.length} codon${postStopmCodonts.length > 1? 's' : ''} after STOP: ${postStopCodons.join(', ')}</em></p>`
+        } // LEFT OFF HERE, CONTINUE TMRW. There's probably bugs :(
 
     //below is perfectly functional commented out code, will see if new code works, if not, revert and retry.
 
