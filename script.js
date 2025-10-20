@@ -210,6 +210,7 @@ document.getElementById('translateBtn').addEventListener('click', function() {
         if (aaObj.short === 'STOP') {
             stopIndex = i;
             hasStop = true;
+            protein.push(aaObj.short)
             break;
         }
 
