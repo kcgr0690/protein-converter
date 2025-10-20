@@ -138,10 +138,9 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     const sequence = document.getElementById('sequence').value.trim().toUpperCase();
     const type = document.getElementById('type').value;
     const sequenceInput = document.getElementById('sequence');
-    console.log('Sequence:', sequence);
-    console.log('Type:', type);
     const outputDiv = document.getElementById('output');
     outputDiv.innerHTML = '';
+
 
     const validBases = {
         coding: /^[ATCG]+$/,
@@ -149,17 +148,22 @@ document.getElementById('translateBtn').addEventListener('click', function() {
         mRNA: /^[AUCG]+$/
     };
 
-    if (!validBases[type].test(sequence)) {
-        outputDiv.innerHTML = `<div style="color:red;"><strong>Error:</strong> Invalid bases for ${type} sequence.</div>`
+    if (!validBases[type]) {
+        outputDiv.innerHTML = `<div style="color:red;"><strong>Error:</strong> Unknown sequence type "${type}".</div>`;
         return;
     }
+    if (!validBases[type].test(sequence)) {
+        outputDiv.innerHTML = `<div style="color:red;"><strong>Error:</strong> Invalid bases for ${type} sequence.</div>`;
+        return;
+    }
+
 
     let mRNA = '';
     if (type === 'mRNA') {
         mRNA = sequence;
     } else if (type === 'coding') {
         mRNA = sequence.replace(/T/g, 'U');
-    } else if (type === 'template') {
+    } else {
         const reversed = sequence.split('').reverse().join('');
         const complement = reversed
             .replace(/A/g, 'tempA')
@@ -172,84 +176,83 @@ document.getElementById('translateBtn').addEventListener('click', function() {
     }
 
     if (mRNA.length < 3) {
-        outputDiv.innerHTML = '<p>Error: Sequence too short for translation.</p>';
+        outputDiv.innerHTML = '<div style="color:red;"><strong>Error:</strong> Sequence too short for translation.</div>';
         return;
     }
 
     const startIndex = mRNA.indexOf('AUG');
     if (startIndex === -1) {
-        outputDiv.innerHTML = '<p>Error: No valid "AUG" start codon in reading frame.</p>';
+        outputDiv.innerHTML = '<div style="color:red;"><strong>Error:</strong> No valid "AUG" start codon in reading frame.</div>';
         return;
     }
-
     const codingmRNA = mRNA.slice(startIndex);
 
     const codonChunks = [];
     for (let i = 0; i < codingmRNA.length; i += 3) {
-        const chunk = codingmRNA.slice(i, i + 3);
-        codonChunks.push(`(${chunk})`);
+        codonChunks.push(`(${codingmRNA.slice(i, i + 3)})`);
     }
-
     const codonDisplay = codonChunks.join(' - ');
-
-    console.log('Coding mRNA from start:', codingmRNA);
 
     let protein = [];
     let stopIndex = -1;
-    let postStopCodons = [];
-    let postStopAA = '';
     let hasStop = false;
 
     for (let i = 0; i < codingmRNA.length; i += 3) {
-    const codon = codingmRNA.slice(i, i + 3);
-    if (codon.length < 3) break;
-    let aaObj = codonTable[codon];
-    if (!aaObj) {
-        outputDiv.innerHTML = `<p>Error: Invalid codon "${codon}" (invalid bases?)</p>`;
-        return;
-    }
-    
-    if (aaObj === 'STOP') {
-        protein.push('STOP'); 
-        stopIndex = i;
-        hasStop = true;
-        break;
-    }
-    const aaName = useFullName ? aaObj.full : aaObj.short;
-    protein.push(aaName);
-}
+        const codon = codingmRNA.slice(i, i + 3);
+        if (codon.length < 3) break; 
 
-    if (stopIndex !== -1) {
-        const postStopmRNA = codingmRNA.slice(stopIndex + 3);
-        for (let j = 0; j < postStopmRNA.length; j += 3) {
-            const postCodon = postStopmRNA.slice(j, j + 3);
-            if (postCodon.length < 3) break;
-            let postAA = codonTable[postCodon];
-            if (postAA) {
-                postAA = postAA.split(' ')[0];
-                postStopCodons.push(`${postCodon} → <strong>${postAA}</strong>`);
+        const aaObj = codonTable[codon];
+        if (!aaObj) {
+            outputDiv.innerHTML = `<div style="color:red;"><strong>Error:</strong> Invalid codon "${codon}" (invalid bases?)</div>`;
+            return;
+        }
+
+        if (aaObj.short === 'STOP') {
+            stopIndex = i;
+            hasStop = true;
+            break;
+        }
+
+        protein.push(useFullName ? aaObj.full : aaObj.short);
+    }
+
+    const translatedRegionLength = hasStop ? stopIndex : codingmRNA.length;
+    const translatedRemainder = translatedRegionLength % 3;
+    let translatedLeftoverMsg = '';
+    if (translatedRemainder !== 0) {
+        const remainingBases = codingmRNA.slice(translatedRegionLength - translatedRemainder, translatedRegionLength);
+        translatedLeftoverMsg = `<div><em>${translatedRemainder} base${translatedRemainder > 1 ? 's' : ''} remaining in translated region: <strong>${remainingBases}</strong></em></div>`;
+    }
+
+    let postStopFullCodons = [];
+    let postStopRemainder = '';
+    if (hasStop) {
+        const postStopRegion = codingmRNA.slice(stopIndex + 3); // region after STOP codon
+        for (let j = 0; j < postStopRegion.length; j += 3) {
+            const chunk = postStopRegion.slice(j, j + 3);
+            if (chunk.length < 3) {
+                postStopRemainder = chunk;
+                break;
+            }
+            const postAAObj = codonTable[chunk];
+            if (postAAObj) {
+                const displayAA = useFullName ? postAAObj.full : postAAObj.short;
+                postStopFullCodons.push(`${chunk} → ${displayAA}`);
             } else {
-                postStopCodons.push(`${postCodon} → (invalid)`);
+                postStopFullCodons.push(`${chunk} → (invalid)`);
             }
         }
-        if (postStopCodons.length > 0) {
-            postStopAA = `<p><em>${postStopCodons.length} codon${postStopCodons.length > 1 ? 's' : ''} after STOP: ${postStopCodons.join(', ')}</em></p>`;
-        }
     }
 
-let noStopWarning = '';
-if (!hasStop) {
-    noStopWarning = `<p><em>No STOP codon found—translation assumed complete.</em></p>`;
-}
+    let postStopMsg = '';
+    if (postStopFullCodons.length > 0) {
+        postStopMsg += `<div><em>${postStopFullCodons.length} codon${postStopFullCodons.length > 1 ? 's' : ''} after STOP: ${postStopFullCodons.join(', ')}</em></div>`;
+    }
+    if (postStopRemainder) {
+        postStopMsg += `<div><em>Plus ${postStopRemainder.length} base${postStopRemainder.length > 1 ? 's' : ''} remaining after the last post-STOP codon: <strong>${postStopRemainder}</strong></em></div>`;
+    }
 
-let leftoverWarning = '';
-const remainder = codingmRNA.length % 3;
-if (remainder !== 0) {
-    const remainingBases = codingmRNA.slice(-remainder);
-    leftoverWarning = `<p><em>${remainder} base${remainder > 1 ? 's' : ''} remaining at the end: <strong>${remainingBases}</strong></em></p>`;
-}
-    const proteinString = `(${protein.join(') - (')})`;
-    console.log('Protein:', proteinString); 
+    const proteinString = protein.length ? `(${protein.join(') - (')})` : '( — )';
 
     const entry = {
         date: new Date().toLocaleString(),
@@ -257,14 +260,15 @@ if (remainder !== 0) {
         type: type,
         protein: proteinString
     };
-
     saveAndDisplayHistory(entry);
-    
+
     outputDiv.innerHTML = `
-    <div><strong>Sequence:</strong> ${sequence} (${type})</div>
-    <div><strong>mRNA (from AUG):</strong> ${codonDisplay}</div>
-    <div><strong>Protein:</strong> ${proteinString}</div>
-    ${postStopAA}${leftoverWarning}
+      <div><strong>Sequence:</strong> ${sequence} (${type})</div>
+      <div><strong>mRNA (from AUG):</strong> ${codonDisplay}</div>
+      <div><strong>Protein:</strong> ${proteinString}</div>
+      ${postStopMsg}
+      ${translatedLeftoverMsg}
     `;
+
     sequenceInput.value = '';
 });
